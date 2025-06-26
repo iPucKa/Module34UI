@@ -9,22 +9,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Progress
 {
 	public class ProgressService : IDataReader<PlayerData>, IDataWriter<PlayerData>
 	{
-		//private ReactiveVariable<int> _winProgressCount;
-		//private ReactiveVariable<int> _defeatProgressCount;
-
-		private readonly Dictionary<GameProgressTypes, ReactiveVariable<int>> _achievements;
-
-		//public ProgressService(
-		//	ReactiveVariable<int> winProgressCount,
-		//	ReactiveVariable<int> defeatProgressCount,
-		//	PlayerDataProvider playerDataProvider)
-		//{
-		//	_winProgressCount = winProgressCount;
-		//	_defeatProgressCount = defeatProgressCount;
-
-		//	playerDataProvider.RegisterWriter(this);
-		//	playerDataProvider.RegisterReader(this);
-		//}
+		private readonly Dictionary<GameProgressTypes, ReactiveVariable<int>> _achievements;		
 
 		public ProgressService(
 			Dictionary<GameProgressTypes, ReactiveVariable<int>> achievements,
@@ -36,18 +21,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Progress
 			playerDataProvider.RegisterReader(this);
 		}
 
-		//public IReadOnlyVariable<int> GetWinProgress => _winProgressCount;
-		//public IReadOnlyVariable<int> GetDefeatProgress => _defeatProgressCount;
-
 		public List<GameProgressTypes> AllKindOfProgress => _achievements.Keys.ToList();
 
 		public IReadOnlyVariable<int> GetProgress(GameProgressTypes type) => _achievements[type];
 
 		public void ReadFrom(PlayerData data)
 		{
-			//_winProgressCount = new ReactiveVariable<int> (data.WinProgress);
-			//_defeatProgressCount = new ReactiveVariable<int> (data.DefeatProgress);	
-
 			foreach (KeyValuePair<GameProgressTypes, int> achievement in data.ProgressData)
 			{
 				if (_achievements.ContainsKey(achievement.Key))
@@ -58,10 +37,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Progress
 		}
 
 		public void WriteTo(PlayerData data)
-		{
-			//data.WinProgress = _winProgressCount.Value;
-			//data.DefeatProgress = _defeatProgressCount.Value;
-			
+		{			
 			foreach (KeyValuePair<GameProgressTypes, ReactiveVariable<int>> achievement in _achievements)
 			{
 				if (data.ProgressData.ContainsKey(achievement.Key))
@@ -73,16 +49,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Progress
 
 		public void Increase(GameProgressTypes type) => _achievements[type].Value ++;		
 
-		public void ResetValue(GameProgressTypes type) => _achievements[type].Value = 0;		
-
-		//public void IncreaseWinCountValue()
-		//{
-		//	_winProgressCount.Value ++;
-		//}
-
-		//public void IncreaseDefeatCountValue()
-		//{
-		//	_defeatProgressCount.Value++;
-		//}
+		public void ResetValue(GameProgressTypes type) => _achievements[type].Value = 0;
 	}
 }

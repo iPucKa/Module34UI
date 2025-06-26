@@ -1,5 +1,4 @@
 ﻿using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
-using Assets._Project.Develop.Runtime.Infrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagement;
 using System.Collections;
@@ -9,13 +8,15 @@ namespace Assets._Project.Develop.Runtime.Meta
 {
 	public class ModeService
 	{
-		private readonly DIContainer _container;
+		private readonly SceneSwitcherService _sceneSwitcherService;
+		private readonly ICoroutinesPerformer _coroutinesPerformer;
 
 		private GameplayInputArgs _args;
 
-		public ModeService(DIContainer container)
+		public ModeService(ICoroutinesPerformer coroutinesPerformer, SceneSwitcherService sceneSwitcherService)
 		{
-			_container = container;
+			_sceneSwitcherService = sceneSwitcherService;
+			_coroutinesPerformer = coroutinesPerformer;
 		}
 
 		public IEnumerator SelectMode()
@@ -25,7 +26,8 @@ namespace Assets._Project.Develop.Runtime.Meta
 				if (Input.GetKeyUp(KeyCode.Alpha1))
 				{
 					_args = new GameplayInputArgs(SymbolInputMode.Numbers);
-					MoveToGameplayScene();
+					yield return  MoveToGameplayScene();
+
 					Debug.Log("Выбран режим генерации цифр");
 
 					yield break;
@@ -34,7 +36,8 @@ namespace Assets._Project.Develop.Runtime.Meta
 				if (Input.GetKeyUp(KeyCode.Alpha2))
 				{
 					_args = new GameplayInputArgs(SymbolInputMode.Chars);
-					MoveToGameplayScene();
+					yield return MoveToGameplayScene();
+
 					Debug.Log("Выбран режим генерации букв");
 
 					yield break;
@@ -44,11 +47,9 @@ namespace Assets._Project.Develop.Runtime.Meta
 			}					
 		}
 
-		private void MoveToGameplayScene()
+		private IEnumerator MoveToGameplayScene()
 		{
-			SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
-
-			_container.Resolve<ICoroutinesPerformer>().StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, _args));
+			yield return _coroutinesPerformer.StartPerform(_sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, _args));
 		}
 	}
 }

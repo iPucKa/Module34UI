@@ -43,7 +43,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Progress
 					_progressService.ResetValue(pregressType);
 
 				_coroutinesPerformer.StartPerform(_playerDataProvider.Save());
-				Debug.Log("Золота осталось: " + _walletService.GetCurrency(CurrencyTypes.Gold).Value);
+				//Debug.Log("Золота осталось: " + _walletService.GetCurrency(CurrencyTypes.Gold).Value);
 			}
 			else
 			{

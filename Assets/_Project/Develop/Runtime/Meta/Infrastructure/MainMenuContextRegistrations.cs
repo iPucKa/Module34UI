@@ -2,6 +2,8 @@
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.UI.MainMenu;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagement;
+using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagement;
+using Assets._Project.Develop.Runtime.Utilities.SceneManagement;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
@@ -52,6 +54,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
 
 		//Способ создания режимов игры
 		private static ModeService CreateModeService(DIContainer c) 
-			=> new ModeService(c);		
+			=> new ModeService(
+				c.Resolve<ICoroutinesPerformer>(),
+				c.Resolve<SceneSwitcherService>());		
 	}
 }

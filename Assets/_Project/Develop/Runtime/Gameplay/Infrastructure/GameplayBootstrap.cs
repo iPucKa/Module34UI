@@ -1,5 +1,4 @@
 ﻿using Assets._Project.Develop.Runtime.Gameplay.GameModeManagement;
-using Assets._Project.Develop.Runtime.Gameplay.PlayerInput;
 using Assets._Project.Develop.Runtime.Infrastructure;
 using Assets._Project.Develop.Runtime.Infrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagement;
@@ -11,8 +10,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 {
 	public class GameplayBootstrap : SceneBootstrap
 	{
-		[SerializeField] private PlayerInputHandler _playerInputHandler;
-
 		private DIContainer _container;
 		private GameplayCycle _gameplayCycle;
 		private GameplayInputArgs _inputArgs;
@@ -25,11 +22,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 				throw new ArgumentException($"{nameof(sceneArgs)} is not match with {typeof(GameplayInputArgs)}");
 
 			_inputArgs = gameplayInputArgs;
+
+			GameplayContextRegistrations.Process(_container, _inputArgs);
 		}
 
 		public override IEnumerator Initialize()
 		{
-			_gameplayCycle = new GameplayCycle(_container, _playerInputHandler, _inputArgs);
+			_gameplayCycle = _container.Resolve<GameplayCycle>();
 
 			yield return _gameplayCycle.Launch();
 

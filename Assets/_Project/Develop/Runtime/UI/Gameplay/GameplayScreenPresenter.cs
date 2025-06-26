@@ -1,34 +1,33 @@
-﻿using Assets._Project.Develop.Runtime.Gameplay.Progress;
+﻿using Assets._Project.Develop.Runtime.Gameplay.GameRules;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.UI.Progress;
 using Assets._Project.Develop.Runtime.UI.Wallet;
 using System.Collections.Generic;
 
-namespace Assets._Project.Develop.Runtime.UI.MainMenu
+namespace Assets._Project.Develop.Runtime.UI.Gameplay
 {
-	public class MainMenuScreenPresenter : IPresenter
+	public class GameplayScreenPresenter : IPresenter
 	{
-		private readonly MainMenuScreenView _screen;
+		private readonly GameplayScreenView _screen;
 		private readonly ProjectPresentersFactory _projectPresentersFactory;
-		private readonly ProgressRestoreService _progressRestoreService;
-
-		//private readonly MainMenuPopupService _popupService;
+		private readonly IRule _rule;
 
 		private readonly List<IPresenter> _childPresenters = new();
 
-		public MainMenuScreenPresenter(
-			MainMenuScreenView screen,
+		public GameplayScreenPresenter(
+			GameplayScreenView screen,
 			ProjectPresentersFactory projectPresentersFactory,
-			ProgressRestoreService progressRestoreService)
+			IRule rule)
 		{
 			_screen = screen;
 			_projectPresentersFactory = projectPresentersFactory;
-			_progressRestoreService = progressRestoreService;
+			_rule = rule;
 		}
 
 		public void Initialize()
 		{
-			_screen.ResetProgressButtonClicked += OnResetProgressButtonClicked;
+			_screen.IsTyped += OnPlayerTyped;
+			_rule.IsGenerated += OnGenerated;
 
 			CreateWallet();
 
@@ -38,9 +37,20 @@ namespace Assets._Project.Develop.Runtime.UI.MainMenu
 				presenter.Initialize();
 		}
 
+		private void OnGenerated(string generatedText)
+		{
+			_screen.SetText(generatedText);
+		}
+
+		private void OnPlayerTyped(string playerInput)
+		{
+			_rule.Check(playerInput);
+		}
+
 		public void Dispose()
 		{
-			_screen.ResetProgressButtonClicked -= OnResetProgressButtonClicked;
+			_screen.IsTyped -= OnPlayerTyped;
+			_rule.IsGenerated -= OnGenerated;
 
 			foreach (IPresenter presenter in _childPresenters)
 				presenter.Dispose();
@@ -60,12 +70,6 @@ namespace Assets._Project.Develop.Runtime.UI.MainMenu
 			ProgressBarPresenter progressPresenter = _projectPresentersFactory.CreateProgressBarPresenter(_screen.ProgressView);
 
 			_childPresenters.Add(progressPresenter);
-		}
-
-		private void OnResetProgressButtonClicked()
-		{
-			//_popupService.OpenLevelsMenuPopup();
-			_progressRestoreService.SetInitialValues();
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using Assets._Project.Develop.Runtime.Configs.Gameplay;
 using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
-using Assets._Project.Develop.Runtime.Gameplay.PlayerInput;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagement;
+using Assets._Project.Develop.Runtime.Utilities.SceneManagement;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,9 +13,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameRules
 	{
 		public event Action IsMatch;
 		public event Action IsNotMatch;
+		public event Action<string> IsGenerated;
 
 		private readonly RulesConfig _config;
-		private readonly PlayerInputHandler _playerInputHandler;
 		private readonly SymbolInputMode _mode;
 
 		private const int StringLength = 5;
@@ -25,26 +25,27 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameRules
 
 		private string _generatedString;
 
-		public MatchSymbolsRule(ConfigsProviderService configsProviderService, SymbolInputMode mode, PlayerInputHandler playerInputHandler)
+		public MatchSymbolsRule(ConfigsProviderService configsProviderService, IInputSceneArgs sceneArgs = null)
 		{
-			_config = configsProviderService.GetConfig<RulesConfig>();	
-			_mode = mode;
-			_playerInputHandler = playerInputHandler;
+			_config = configsProviderService.GetConfig<RulesConfig>();
 
-			_playerInputHandler.IsTyped += OnPlayerFinishedTyping;			
+			if (sceneArgs is not GameplayInputArgs gameplayInputArgs)
+				throw new ArgumentException($"{nameof(sceneArgs)} is not match with {typeof(GameplayInputArgs)}");
+
+			_mode = gameplayInputArgs.Mode;		
 		}
 
 		public void Dispose()
 		{
-			_playerInputHandler.IsTyped -= OnPlayerFinishedTyping;
+			//_playerInputHandler.IsTyped -= OnPlayerFinishedTyping;
 		}
 
-		private void OnPlayerFinishedTyping(string text)
+		public void Check(string playerInput)
 		{
-			if (text.Equals(_generatedString))
+			if (playerInput.Equals(_generatedString))
 				IsMatch?.Invoke();
 
-			if (text.Equals(_generatedString) == false)
+			if (playerInput.Equals(_generatedString) == false)
 				IsNotMatch?.Invoke();
 		}
 
@@ -55,6 +56,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameRules
 
 			foreach (char symbol in _generatedSymbols)
 				_generatedString += symbol;
+
+			IsGenerated?.Invoke(_generatedString);
 
 			Debug.Log("Точно повторите последовательность: " + _generatedString);
 		}

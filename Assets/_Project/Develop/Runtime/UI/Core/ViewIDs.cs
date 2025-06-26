@@ -5,5 +5,6 @@
 		public const string CurrencyView = nameof(CurrencyView);
 		public const string ProgressView = nameof(ProgressView);
 		public const string MainMenuScreen = nameof(MainMenuScreen);
+		public const string GameplayScreen = nameof(GameplayScreen);
 	}
 }

@@ -64,10 +64,6 @@ namespace Assets._Project.Develop.Runtime.Infrastructure.EntryPoint
 		//Способ создания прогресса побед и поражений
 		private static ProgressService CreateProgressService(DIContainer c)
 		{
-			//Dictionary<CurrencyTypes, ReactiveVariable<int>> currencies = new Dictionary<CurrencyTypes, ReactiveVariable<int>>();
-			//ReactiveVariable<int> winProgressCount = new ReactiveVariable<int>();
-			//ReactiveVariable<int> defeatProgressCount = new ReactiveVariable<int>();
-
 			Dictionary<GameProgressTypes, ReactiveVariable<int>> achievements = new Dictionary<GameProgressTypes, ReactiveVariable<int>>();
 
 			foreach (GameProgressTypes progressType in Enum.GetValues(typeof(GameProgressTypes)))
