@@ -28,6 +28,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 			container.RegisterAsSingle(CreateGameplayUIRoot).NonLazy();
 			container.RegisterAsSingle(CreateGameplayCycle);
 			container.RegisterAsSingle<IRule>(CreateRule).NonLazy();
+			container.RegisterAsSingle(CreateGameplayPopupService);
+		}
+
+		//Способ создания сервиса попапов геймплея
+		private static GameplayPopupService CreateGameplayPopupService(DIContainer c)
+		{
+			return new GameplayPopupService(
+				c.Resolve<ViewsFactory>(),
+				c.Resolve<GameplayPresentersFactory>(),
+				c.Resolve<GameplayUIRoot>());
 		}
 
 		//Способ создания правил игры

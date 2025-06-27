@@ -19,8 +19,6 @@ namespace Assets._Project.Develop.Runtime.UI.MainMenu
 
 		private GameplayInputArgs _args;
 
-		//private readonly MainMenuPopupService _popupService;
-
 		private readonly List<IPresenter> _childPresenters = new();
 
 		public MainMenuScreenPresenter(

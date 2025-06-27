@@ -16,6 +16,7 @@ namespace Assets._Project.Develop.Runtime.UI.Core
 			{ViewIDs.ProgressView, "UI/Progress/ProgressView"},
 			{ViewIDs.MainMenuScreen, "UI/MainMenu/MainMenuScreenView"},
 			{ViewIDs.GameplayScreen, "UI/Gameplay/GameplayScreenView"},
+			{ViewIDs.EndGamePopup, "UI/Popups/EndGamePopup"},
 		};
 
 		public ViewsFactory(ResourcesAssetsLoader resourcesAssetsLoader)

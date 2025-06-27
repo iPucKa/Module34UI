@@ -6,5 +6,6 @@
 		public const string ProgressView = nameof(ProgressView);
 		public const string MainMenuScreen = nameof(MainMenuScreen);
 		public const string GameplayScreen = nameof(GameplayScreen);
+		public const string EndGamePopup = nameof(EndGamePopup);
 	}
 }

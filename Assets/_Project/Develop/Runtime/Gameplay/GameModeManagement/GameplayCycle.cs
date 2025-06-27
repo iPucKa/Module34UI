@@ -27,6 +27,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameModeManagement
 		private readonly SceneSwitcherService _sceneSwitcherService;
 		private readonly IRule _gameRule;
 
+		private bool _isPopupGlosed;
+
 		public GameplayCycle(
 			WalletService walletService,
 			ProgressService progressService,
@@ -50,6 +52,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameModeManagement
 				throw new ArgumentException($"{nameof(sceneArgs)} is not match with {typeof(GameplayInputArgs)}");
 
 			_mode = gameplayInputArgs.Mode;
+
+			_isPopupGlosed = false;
 		}
 
 		public IEnumerator Launch()
@@ -105,9 +109,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameModeManagement
 
 		private IEnumerator ResetProcess(string sceneName)
 		{
-			yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+			yield return new WaitUntil(() => _isPopupGlosed == true);
 
 			_coroutinesPerformer.StartPerform(_sceneSwitcherService.ProcessSwitchTo(sceneName, new GameplayInputArgs(_mode)));
 		}
+
+		public void CanResetGame(bool isPopupGlosed) => _isPopupGlosed = isPopupGlosed;
 	}
 }
