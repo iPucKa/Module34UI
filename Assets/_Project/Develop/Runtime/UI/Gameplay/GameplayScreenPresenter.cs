@@ -8,6 +8,9 @@ namespace Assets._Project.Develop.Runtime.UI.Gameplay
 {
 	public class GameplayScreenPresenter : IPresenter
 	{
+		private const string WinMessage = "YOU WIN";
+		private const string DefeatMessage = "TRY AGAIN";
+
 		private readonly GameplayScreenView _screen;
 		private readonly ProjectPresentersFactory _projectPresentersFactory;
 		private readonly IRule _rule;
@@ -31,8 +34,8 @@ namespace Assets._Project.Develop.Runtime.UI.Gameplay
 		{
 			_screen.IsTyped += OnPlayerTyped;
 			_rule.IsGenerated += OnGenerated;
-			_rule.IsMatch += OnGameEnded;
-			_rule.IsNotMatch += OnGameEnded;
+			_rule.IsMatch += OnGameWin;
+			_rule.IsNotMatch += OnGameDefeat;
 
 			CreateWallet();
 
@@ -46,8 +49,8 @@ namespace Assets._Project.Develop.Runtime.UI.Gameplay
 		{
 			_screen.IsTyped -= OnPlayerTyped;
 			_rule.IsGenerated -= OnGenerated;
-			_rule.IsMatch += OnGameEnded;
-			_rule.IsNotMatch += OnGameEnded;
+			_rule.IsMatch += OnGameWin;
+			_rule.IsNotMatch += OnGameDefeat;
 
 			foreach (IPresenter presenter in _childPresenters)
 				presenter.Dispose();
@@ -69,7 +72,9 @@ namespace Assets._Project.Develop.Runtime.UI.Gameplay
 			_childPresenters.Add(progressPresenter);
 		}
 
-		private void OnGameEnded() => _popupService.OpenEndGamePopup();		
+		private void OnGameWin() => _popupService.OpenEndGamePopup(WinMessage);
+		
+		private void OnGameDefeat() => _popupService.OpenEndGamePopup(DefeatMessage);		
 
 		private void OnGenerated(string generatedText) => _screen.SetText(generatedText);		
 

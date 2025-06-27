@@ -14,7 +14,7 @@ namespace Assets._Project.Develop.Runtime.UI.Gameplay
 			: base(viewsFactory, presentersFactory)
 		{
 			_uiRoot = uiRoot;
-		}
+		}		
 
 		protected override Transform PopupLayer => _uiRoot.PopupsLayer;
 	}

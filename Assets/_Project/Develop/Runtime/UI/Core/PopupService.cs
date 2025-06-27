@@ -23,11 +23,11 @@ namespace Assets._Project.Develop.Runtime.UI.Core
 
 		protected abstract Transform PopupLayer { get; }
 
-		public EndGamePopupPresenter OpenEndGamePopup(Action closedCallback = null)
+		public EndGamePopupPresenter OpenEndGamePopup(string message, Action closedCallback = null)
 		{
 			EndGamePopupView view = ViewsFactory.Create<EndGamePopupView>(ViewIDs.EndGamePopup, PopupLayer);
 
-			EndGamePopupPresenter popup = _presentersFactory.CreateEndGamePopupPresenter(view);
+			EndGamePopupPresenter popup = _presentersFactory.CreateEndGamePopupPresenter(view, message);
 
 			OnPopupCreated(popup, view, closedCallback);
 

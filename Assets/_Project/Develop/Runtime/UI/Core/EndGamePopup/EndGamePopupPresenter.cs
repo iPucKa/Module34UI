@@ -7,14 +7,17 @@ namespace Assets._Project.Develop.Runtime.UI.Core.EndGamePopup
 	{
 		private readonly EndGamePopupView _view;
 		private readonly GameplayCycle _gameLogic;
+		private readonly string _message;
 
 		public EndGamePopupPresenter(
 			EndGamePopupView view, 
 			ICoroutinesPerformer coroutinesPerformer, 
-			GameplayCycle gameLogic) : base(coroutinesPerformer)
+			GameplayCycle gameLogic,
+			string message) : base(coroutinesPerformer)
 		{
 			_view = view;
 			_gameLogic = gameLogic;
+			_message = message;
 		}
 
 		protected override PopupViewBase PopupView => _view;
@@ -22,7 +25,7 @@ namespace Assets._Project.Develop.Runtime.UI.Core.EndGamePopup
 		public override void Initialize()
 		{
 			base.Initialize();
-			_view.SetText("GAME OVER");
+			_view.SetText(_message);
 		}
 
 		protected override void OnPreHide()

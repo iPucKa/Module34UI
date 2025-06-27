@@ -24,12 +24,13 @@ namespace Assets._Project.Develop.Runtime.UI.Gameplay
 				_container.Resolve<GameplayPopupService>());
 		}
 
-		public EndGamePopupPresenter CreateEndGamePopupPresenter(EndGamePopupView view)
+		public EndGamePopupPresenter CreateEndGamePopupPresenter(EndGamePopupView view, string message)
 		{
 			return new EndGamePopupPresenter(
 				view,
 				_container.Resolve<ICoroutinesPerformer>(),
-				_container.Resolve<GameplayCycle>());
+				_container.Resolve<GameplayCycle>(),
+				message);
 		}
 	}
 }
