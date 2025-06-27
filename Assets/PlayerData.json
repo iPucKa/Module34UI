@@ -1,9 +1,9 @@
 {
   "WalletData": {
-    "Gold": 85
+    "Gold": 30
   },
   "ProgressData": {
-    "Win": 6,
-    "Defeat": 0
+    "Win": 3,
+    "Defeat": 1
   }
 }

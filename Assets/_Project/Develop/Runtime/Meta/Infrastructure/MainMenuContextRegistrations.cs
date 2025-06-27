@@ -14,7 +14,7 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
 		{
 			//Регистрации			
 			Debug.Log("Процесс регистрации сервисов на сцене меню");
-			container.RegisterAsSingle(CreateModeService);
+			container.RegisterAsSingle(CreateModeService).NonLazy();
 			container.RegisterAsSingle(CreateMainMenuPresentersFactory);
 			container.RegisterAsSingle(CreateMainMenuScreenPresenter).NonLazy();
 			container.RegisterAsSingle(CreateMainMenuUIRoot).NonLazy();
