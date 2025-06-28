@@ -1,5 +1,5 @@
-﻿using Assets._Project.Develop.Runtime.UI.Core.EndGamePopup;
-using Assets._Project.Develop.Runtime.UI.Gameplay;
+﻿using Assets._Project.Develop.Runtime.UI.Gameplay;
+using Assets._Project.Develop.Runtime.UI.Gameplay.EndGamePopup;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

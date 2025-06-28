@@ -1,7 +1,8 @@
 ﻿using Assets._Project.Develop.Runtime.Gameplay.GameModeManagement;
+using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagement;
 
-namespace Assets._Project.Develop.Runtime.UI.Core.EndGamePopup
+namespace Assets._Project.Develop.Runtime.UI.Gameplay.EndGamePopup
 {
 	public class EndGamePopupPresenter : PopupPresenterBase
 	{

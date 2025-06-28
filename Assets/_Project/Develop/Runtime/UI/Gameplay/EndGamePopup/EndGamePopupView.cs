@@ -1,9 +1,10 @@
-﻿using DG.Tweening;
+﻿using Assets._Project.Develop.Runtime.UI.Core;
+using DG.Tweening;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.UI.Core.EndGamePopup
+namespace Assets._Project.Develop.Runtime.UI.Gameplay.EndGamePopup
 {
 	public class EndGamePopupView : PopupViewBase
 	{
