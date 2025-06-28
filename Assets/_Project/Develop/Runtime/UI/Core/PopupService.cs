@@ -1,5 +1,7 @@
 ﻿using Assets._Project.Develop.Runtime.UI.Gameplay;
 using Assets._Project.Develop.Runtime.UI.Gameplay.EndGamePopup;
+using Assets._Project.Develop.Runtime.UI.MainMenu;
+using Assets._Project.Develop.Runtime.UI.MainMenu.GameModeSelectorPopup;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +11,8 @@ namespace Assets._Project.Develop.Runtime.UI.Core
 	public abstract class PopupService : IDisposable // Методы создания попапов для всего проекта
 	{
 		protected readonly ViewsFactory ViewsFactory;
-		private readonly GameplayPresentersFactory _presentersFactory;
+		private readonly MainMenuPresentersFactory _mainMenuPresentersFactory;
+		private readonly GameplayPresentersFactory _gameplayPresentersFactory;
 
 		private readonly Dictionary<PopupPresenterBase, PopupInfo> _presenterToInfo = new();
 
@@ -18,7 +21,15 @@ namespace Assets._Project.Develop.Runtime.UI.Core
 			GameplayPresentersFactory presentersFactory)
 		{
 			ViewsFactory = viewsFactory;
-			_presentersFactory = presentersFactory;
+			_gameplayPresentersFactory = presentersFactory;
+		}
+
+		protected PopupService(
+			ViewsFactory viewsFactory,
+			MainMenuPresentersFactory presentersFactory)
+		{
+			ViewsFactory = viewsFactory;
+			_mainMenuPresentersFactory = presentersFactory;
 		}
 
 		protected abstract Transform PopupLayer { get; }
@@ -27,7 +38,18 @@ namespace Assets._Project.Develop.Runtime.UI.Core
 		{
 			EndGamePopupView view = ViewsFactory.Create<EndGamePopupView>(ViewIDs.EndGamePopup, PopupLayer);
 
-			EndGamePopupPresenter popup = _presentersFactory.CreateEndGamePopupPresenter(view, message);
+			EndGamePopupPresenter popup = _gameplayPresentersFactory.CreateEndGamePopupPresenter(view, message);
+
+			OnPopupCreated(popup, view, closedCallback);
+
+			return popup;
+		}
+
+		public GameModeSelectorPopupPresenter OpenGameModeSelectorPopup(Action closedCallback = null)
+		{
+			GameModeSelectorPopupView view = ViewsFactory.Create<GameModeSelectorPopupView>(ViewIDs.GameModeSelectorPopup, PopupLayer);
+
+			GameModeSelectorPopupPresenter popup = _mainMenuPresentersFactory.CreateGameModeSelectorPopupPresenter(view);
 
 			OnPopupCreated(popup, view, closedCallback);
 

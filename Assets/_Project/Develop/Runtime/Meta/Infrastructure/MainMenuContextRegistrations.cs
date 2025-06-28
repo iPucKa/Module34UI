@@ -18,7 +18,17 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
 			container.RegisterAsSingle(CreateMainMenuPresentersFactory);
 			container.RegisterAsSingle(CreateMainMenuScreenPresenter).NonLazy();
 			container.RegisterAsSingle(CreateMainMenuUIRoot).NonLazy();
+			container.RegisterAsSingle(CreateMainMenuPopupService);
 
+		}
+
+		//Способ создания сервиса попапов главного меню
+		private static MainMenuPopupService CreateMainMenuPopupService(DIContainer c)
+		{
+			return new MainMenuPopupService(
+				c.Resolve<ViewsFactory>(),
+				c.Resolve<MainMenuPresentersFactory>(),
+				c.Resolve<MainMenuUIRoot>());
 		}
 
 		//Способ создания холста для Главного меню

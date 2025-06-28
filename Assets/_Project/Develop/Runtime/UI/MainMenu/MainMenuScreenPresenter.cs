@@ -1,12 +1,8 @@
-﻿using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
-using Assets._Project.Develop.Runtime.Gameplay.Progress;
-using Assets._Project.Develop.Runtime.Meta;
+﻿using Assets._Project.Develop.Runtime.Gameplay.Progress;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.UI.Progress;
 using Assets._Project.Develop.Runtime.UI.Wallet;
-using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.UI.MainMenu
 {
@@ -15,29 +11,33 @@ namespace Assets._Project.Develop.Runtime.UI.MainMenu
 		private readonly MainMenuScreenView _screen;
 		private readonly ProjectPresentersFactory _projectPresentersFactory;
 		private readonly ProgressRestoreService _progressRestoreService;
-		private readonly ModeService _modeService;
+		//private readonly ModeService _modeService;
+		private readonly MainMenuPopupService _popupService;
 
-		private GameplayInputArgs _args;
+		//private GameplayInputArgs _args;
 
 		private readonly List<IPresenter> _childPresenters = new();
 
 		public MainMenuScreenPresenter(
 			MainMenuScreenView screen,
-			ModeService modeService,
+			//ModeService modeService,
 			ProjectPresentersFactory projectPresentersFactory,
-			ProgressRestoreService progressRestoreService)
+			ProgressRestoreService progressRestoreService,
+			MainMenuPopupService popupService)
 		{
 			_screen = screen;
 			_projectPresentersFactory = projectPresentersFactory;
 			_progressRestoreService = progressRestoreService;
-			_modeService = modeService;
+			//_modeService = modeService;
+			_popupService = popupService;
 		}
 
 		public void Initialize()
 		{
 			_screen.ResetProgressButtonClicked += OnResetProgressButtonClicked;
-			_screen.CharModeSelected += OnCharModeSelected;
-			_screen.NumberModeSelected += OnNumberModeSelected;
+			_screen.ModeSelectorButtonClicked += OnModeSelectorButtonClicked;
+			//_screen.CharModeSelected += OnCharModeSelected;
+			//_screen.NumberModeSelected += OnNumberModeSelected;
 
 			CreateWallet();
 
@@ -50,8 +50,9 @@ namespace Assets._Project.Develop.Runtime.UI.MainMenu
 		public void Dispose()
 		{
 			_screen.ResetProgressButtonClicked -= OnResetProgressButtonClicked;
-			_screen.CharModeSelected -= OnCharModeSelected;
-			_screen.NumberModeSelected -= OnNumberModeSelected;
+			_screen.ModeSelectorButtonClicked -= OnModeSelectorButtonClicked;
+			//_screen.CharModeSelected -= OnCharModeSelected;
+			//_screen.NumberModeSelected -= OnNumberModeSelected;
 
 			foreach (IPresenter presenter in _childPresenters)
 				presenter.Dispose();
@@ -73,27 +74,24 @@ namespace Assets._Project.Develop.Runtime.UI.MainMenu
 			_childPresenters.Add(progressPresenter);
 		}
 
-		private void OnResetProgressButtonClicked()
-		{
-			//_popupService.OpenLevelsMenuPopup();
-			_progressRestoreService.SetInitialValues();
-		}
+		private void OnResetProgressButtonClicked() => _progressRestoreService.SetInitialValues();
 
-		private void OnNumberModeSelected()
-		{
+		private void OnModeSelectorButtonClicked() => _popupService.OpenGameModeSelectorPopup();
 
-			_args = new GameplayInputArgs(SymbolInputMode.Numbers);
-			_modeService.MoveToGameplayScene(_args);
+		//private void OnNumberModeSelected()
+		//{
+		//	_args = new GameplayInputArgs(SymbolInputMode.Numbers);
+		//	_modeService.MoveToGameplayScene(_args);
 
-			Debug.Log("Выбран режим генерации цифр");
-		}
+		//	Debug.Log("Выбран режим генерации цифр");
+		//}
 
-		private void OnCharModeSelected()
-		{
-			_args = new GameplayInputArgs(SymbolInputMode.Chars);
-			_modeService.MoveToGameplayScene(_args);
+		//private void OnCharModeSelected()
+		//{
+		//	_args = new GameplayInputArgs(SymbolInputMode.Chars);
+		//	_modeService.MoveToGameplayScene(_args);
 
-			Debug.Log("Выбран режим генерации букв");
-		}
+		//	Debug.Log("Выбран режим генерации букв");
+		//}
 	}
 }

@@ -7,5 +7,6 @@
 		public const string MainMenuScreen = nameof(MainMenuScreen);
 		public const string GameplayScreen = nameof(GameplayScreen);
 		public const string EndGamePopup = nameof(EndGamePopup);
+		public const string GameModeSelectorPopup = nameof(GameModeSelectorPopup);
 	}
 }

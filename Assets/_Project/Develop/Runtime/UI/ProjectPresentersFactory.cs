@@ -2,13 +2,16 @@
 using Assets._Project.Develop.Runtime.Configs.Meta.Wallet;
 using Assets._Project.Develop.Runtime.Gameplay.Progress;
 using Assets._Project.Develop.Runtime.Infrastructure.DI;
+using Assets._Project.Develop.Runtime.Meta;
 using Assets._Project.Develop.Runtime.Meta.Features.GameProgress;
 using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
 using Assets._Project.Develop.Runtime.UI.CommonViews;
 using Assets._Project.Develop.Runtime.UI.Core;
+using Assets._Project.Develop.Runtime.UI.MainMenu.GameModeSelectorPopup;
 using Assets._Project.Develop.Runtime.UI.Progress;
 using Assets._Project.Develop.Runtime.UI.Wallet;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagement;
+using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 
 namespace Assets._Project.Develop.Runtime.UI
@@ -63,6 +66,14 @@ namespace Assets._Project.Develop.Runtime.UI
 				_container.Resolve<ViewsFactory>(),
 				view);
 		}
+
+		//public GameModeSelectorPopupPresenter CreateGameModeSelectorPopupPresenter(GameModeSelectorPopupView view)
+		//{
+		//	return new GameModeSelectorPopupPresenter(
+		//		view,
+		//		_container.Resolve<ModeService>(),
+		//		_container.Resolve<ICoroutinesPerformer>());
+		//}
 
 		//public EndGamePopupPresenter CreateEndGamePopupPresenter(EndGamePopupView view)
 		//{
