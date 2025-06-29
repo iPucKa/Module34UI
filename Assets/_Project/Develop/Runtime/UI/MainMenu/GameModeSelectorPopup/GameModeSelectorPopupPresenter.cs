@@ -1,5 +1,4 @@
-﻿using Assets._Project.Develop.Runtime.Gameplay.GameModeManagement;
-using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
+﻿using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
 using Assets._Project.Develop.Runtime.Meta;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -7,9 +6,9 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.UI.MainMenu.GameModeSelectorPopup
 {
-	public class GameModeSelectorPopupPresenter : PopupPresenterBase, ISubscribePresenter
+	public class GameModeSelectorPopupPresenter : PopupPresenterBase
 	{
-		private const string Message = "Please select game mode";
+		private const string Message = "SELECT MODE";
 
 		private readonly GameModeSelectorPopupView _view;
 		private readonly ModeService _modeService;
@@ -28,17 +27,16 @@ namespace Assets._Project.Develop.Runtime.UI.MainMenu.GameModeSelectorPopup
 		public override void Initialize()
 		{
 			base.Initialize();
+			_view.CharModeSelected += OnCharModeSelected;
+			_view.NumberModeSelected += OnNumberModeSelected;
+
 			_view.SetText(Message);
 		}
 
-		public void Subscribe()
+		public override void Dispose()
 		{
-			_view.CharModeSelected += OnCharModeSelected;
-			_view.NumberModeSelected += OnNumberModeSelected;
-		}
+			base.Dispose();
 
-		public void Unsubscribe()
-		{
 			_view.CharModeSelected -= OnCharModeSelected;
 			_view.NumberModeSelected -= OnNumberModeSelected;
 		}
